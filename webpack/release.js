@@ -8,12 +8,13 @@ let DuplicatePackageCheckerPlugin = require("duplicate-package-checker-webpack-p
 let ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
 let MiniCssExtractPlugin = require("mini-css-extract-plugin");
 let ProgressPlugin = require("@jimengio/ci-progress-webpack-plugin");
+let TerserPlugin = require("terser-webpack-plugin");
 
 let { matchExtractCssRule, matchFontsRule, matchTsReleaseRule } = require("./shared");
 let splitChunks = require("./split-chunks");
 let dllManifest = require("./dll/manifest-release.json");
 
-let trackingCode = "";
+let trackingCode = fs.readFileSync(path.join(__dirname, "ga.html"), "utf8");
 
 module.exports = {
   mode: "production",
@@ -26,7 +27,13 @@ module.exports = {
   },
   devtool: "none",
   optimization: {
-    minimize: true,
+    minimizer: [
+      new TerserPlugin({
+        terserOptions: {
+          mangle: false,
+        },
+      }),
+    ],
     namedModules: true,
     chunkIds: "named",
     splitChunks: splitChunks,
@@ -49,6 +56,13 @@ module.exports = {
     warnings: true,
   },
   plugins: [
+    new webpack.DefinePlugin({
+      injectedApiHost: JSON.stringify("http://192.168.1.200:8000/api"),
+      injectedInternalApiHost: JSON.stringify("http://192.168.1.200:8000/internal-api"),
+      "process.env": {
+        NODE_ENV: JSON.stringify("production"),
+      },
+    }),
     new ForkTsCheckerWebpackPlugin({ checkSyntacticErrors: true, async: false }),
     new MiniCssExtractPlugin({
       filename: "[name].[hash:8].css",

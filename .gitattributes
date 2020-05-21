@@ -1,2 +1,6 @@
 
 yarn.lock -diff linguist-generated
+lib/*.* -diff linguist-generated
+lib/**/*.* -diff linguist-generated
+
+generator/swagger-api.json -diff linguist-generated

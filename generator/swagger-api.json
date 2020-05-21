@@ -1,0 +1,124 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "seed",
+    "version": "last"
+  },
+  "basePath": "/",
+  "tags": [
+    {
+      "name": "公共分类",
+      "description": "公共分类"
+    }
+  ],
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/user/info": {
+      "post": {
+        "tags": [
+          "公共分类"
+        ],
+        "summary": "更新用户信息",
+        "description": "",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "root",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "title": "empty object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "gender": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "name",
+                "gender"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$schema": "http://json-schema.org/draft-04/schema#",
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "id",
+                "name"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "/user/me": {
+      "get": {
+        "tags": [
+          "公共分类"
+        ],
+        "summary": "用户信息",
+        "description": "",
+        "parameters": [
+          {
+            "name": "withPosition",
+            "in": "query",
+            "required": false,
+            "description": "包含详细信息",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$schema": "http://json-schema.org/draft-04/schema#",
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "position": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "required": [
+                "id",
+                "name"
+              ]
+            }
+          }
+        }
+      }
+    }
+  }
+}

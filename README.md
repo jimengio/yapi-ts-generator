@@ -1,28 +1,34 @@
-## Workflow
+## Seed TypeScript APIs
 
-> A project template based on TypeScript, React, immer, emotion, rex, ruled-router...
+> 平台 API, 复用业务模块. 文档 TODO .
 
-### Usage
+> 示例 TODO
 
-Dev:
+### Usages
 
-```bash
-yarn dll
-yarn dev
+```yarn
+yarn add jimengio/yapi-ts-generator#0.0.3-a1 # 注意调整对应的版本或者分支名
 ```
 
-Compile library:
+```ts
+import { genSeedApiTree, configureSeedHosts } from "@jimengio/yapi-ts-generator";
 
-```bash
-yarn compile
+// 注意尽可能早调用
+configureSeedHosts({
+  apiHost: "/public",
+
+  // 可选, 开发环境 mock 配置,
+  mockHost: "/mock",
+  mockedPaths: __DEV__ ? [] : null, // 注意不要把 mock 带到生产环境
+});
 ```
 
-Release:
+### 更新 API
 
-```bash
-yarn release
-# yarn serve
-```
+- 从 YAPI 下载 "数据导出 > swaggerjson" 的数据, 替换 `generator/swagger-api.json` 文件.
+- 修改 `generator/preference.ts` 当中路径的配置, 新增 API 要加上对应的项.
+- 运行 `yarn gen` 生成新的 API, 留意下 log 中有没有明显问题.
+- merge 以后升级版本, 然后打 tag 发 release. (如有需要, PR 同时也可以发 alpha release).
 
 ### Workflow
 

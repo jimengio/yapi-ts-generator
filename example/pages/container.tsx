@@ -5,19 +5,16 @@ import { fullscreen, row, expand } from "@jimengio/flex-styles";
 import { HashRedirect, findRouteTarget } from "@jimengio/ruled-router/lib/dom";
 import { genRouter, GenRouterTypeMain } from "controller/generated-router";
 import { ISidebarEntry, DocSidebar } from "@jimengio/doc-frame";
+import PageHome from "./home";
 
-let items: ISidebarEntry[] = [
-  {
-    title: "Intro",
-    path: genRouter.$.name,
-  },
-];
+let items: ISidebarEntry[] = [{ path: genRouter.home.name, title: "Start page" }];
 
 const renderChildPage = (routerTree: GenRouterTypeMain) => {
   switch (routerTree?.name) {
     case "home":
+      return <PageHome />;
     default:
-      return <HashRedirect to={genRouter.$.path()} noDelay />;
+      return <HashRedirect to={genRouter.home.path()} noDelay></HashRedirect>;
   }
 
   return <div>NOTHING</div>;
@@ -37,7 +34,7 @@ let Container: FC<{ router: GenRouterTypeMain }> = React.memo((props) => {
   return (
     <div className={cx(fullscreen, row, styleContainer)}>
       <DocSidebar
-        title="Workflow"
+        title="Seed APIs"
         currentPath={props.router.name}
         onSwitch={(item) => {
           onSwitchPage(item.path);

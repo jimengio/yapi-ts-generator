@@ -1,11 +1,13 @@
+/example
+/generator
+/webpack
 .cache-loader
 .editorconfig
 .gitattributes
 .gitignore
 .prettierrc
 dist
-example
 template.ejs
 tsconfig.json
-webpack
 yarn.lock
+template.json
