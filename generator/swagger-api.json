@@ -7,7 +7,7 @@
   "basePath": "/",
   "tags": [
     {
-      "name": "公共分类",
+      "name": "api.user",
       "description": "公共分类"
     }
   ],
@@ -18,7 +18,7 @@
     "/user/info": {
       "post": {
         "tags": [
-          "公共分类"
+          "api.user"
         ],
         "summary": "更新用户信息",
         "description": "",
@@ -73,7 +73,7 @@
     "/user/me": {
       "get": {
         "tags": [
-          "公共分类"
+          "api.user"
         ],
         "summary": "用户信息",
         "description": "",
