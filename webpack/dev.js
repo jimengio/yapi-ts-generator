@@ -40,6 +40,38 @@ module.exports = {
       timings: true,
       warnings: true,
     },
+    proxy: {
+      "/api/": {
+        target: "https://api.example.cn",
+        pathRewrite: {
+          "^/api/": "/",
+        },
+        changeOrigin: true,
+        cookieDomainRewrite: "",
+        autoRewrite: true,
+        // logLevel: "debug",
+      },
+      "/internal-api/": {
+        target: "https://example.cn",
+        pathRewrite: {
+          "^/internal-api/": "/api/",
+        },
+        changeOrigin: true,
+        cookieDomainRewrite: "",
+        autoRewrite: true,
+        // logLevel: "debug",
+      },
+      "/mock/": {
+        target: "http://localhost:7800/",
+        pathRewrite: {
+          "^/mock/": "/",
+        },
+        changeOrigin: true,
+        cookieDomainRewrite: "",
+        autoRewrite: true,
+        logLevel: "debug",
+      },
+    },
   },
   optimization: {
     minimize: false,
@@ -48,6 +80,13 @@ module.exports = {
     splitChunks: splitChunks,
   },
   plugins: [
+    new webpack.DefinePlugin({
+      injectedApiHost: JSON.stringify("/api"),
+      injectedInternalApiHost: JSON.stringify("/internal-api"),
+      "process.env": {
+        NODE_ENV: JSON.stringify("development"),
+      },
+    }),
     new ForkTsCheckerWebpackPlugin({ checkSyntacticErrors: true, async: false }),
     new webpack.DllReferencePlugin({
       manifest: path.resolve(__dirname, "dll/manifest.json"),
