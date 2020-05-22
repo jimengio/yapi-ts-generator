@@ -13,7 +13,7 @@
     "serve": "http-server dist/ -s",
     "compile": "rm -rfv lib/* && tsc -d --project tsconfig-compile.json --outDir lib/",
     "add-code": "git add .",
-    "gen": "yarn ts-node --project tsconfig-node.json generator/main.ts",
+    "gen": "yarn ts-node --project tsconfig-node.json example/gen.ts",
     "mv": "mv ~/Downloads/swaggerApi.json generator/swagger-api.json",
     "upload": "rsync -avr --progress dist/ work:/usr/static/jimengio/seed-apis",
     "gen-router": "ts-node -P tsconfig-node.json -r tsconfig-paths/register example/gen-router.ts",

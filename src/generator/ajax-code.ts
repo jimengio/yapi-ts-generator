@@ -1,4 +1,4 @@
-import { IPathPreference, pathPreferences } from "../src/preference";
+import { IPathPreference, pathPreferences } from "../preference";
 
 import {
   Path as SwaggerPathConfig,

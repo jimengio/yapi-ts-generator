@@ -7,7 +7,7 @@ import {
 
 import { toPairs } from "lodash";
 import { isArray } from "util";
-import { definedQueryTypes } from "../src/preference";
+import { definedQueryTypes } from "../preference";
 
 let guessQueryNameType = (name: string) => {
   if (name.endsWith("Id")) {
