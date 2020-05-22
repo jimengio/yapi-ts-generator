@@ -102,22 +102,3 @@ export let getBaseUrlKind = (tags: string[]) => {
       throw new Error("Not support API namespace");
   }
 };
-
-/** 平台的 API 包含 public API 和 internal API, 在 swagger 当中通过 tag 来区分 */
-export let byPublicApi = (tags: string[]) => {
-  if (tags == null || tags.length === 0) {
-    return false;
-  }
-  let ns = tags[0].split(".")[0];
-  return ns === "api";
-};
-
-export type FuncTagFilter = (tags: string[]) => boolean;
-
-export let byInternalApi = (tags: string[]) => {
-  if (tags == null || tags.length === 0) {
-    return false;
-  }
-  let ns = tags[0].split(".")[0];
-  return ns === "main";
-};
