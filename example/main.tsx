@@ -1,3 +1,5 @@
+import { pathPreferences } from "preference";
+
 // 应用启动之前修改 baseURL
 configureSeedHosts(
   {
@@ -5,7 +7,7 @@ configureSeedHosts(
     mockHost: "/mock",
     mockedPaths: [],
   },
-  {}
+  pathPreferences
 );
 
 import ReactDOM from "react-dom";
