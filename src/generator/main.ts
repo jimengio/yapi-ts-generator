@@ -1,9 +1,10 @@
 import { Spec } from "swagger-schema-official";
-import { pathPreferences, IPathPreference } from "../preference";
+import { IPathPreference, IPathPreferenceConfigs } from "../preference";
 import { uniq, groupBy, toPairs, difference } from "lodash";
 
 import { generateApiFunctions } from "./ajax-code";
 import { getCodeOfAllInterfaces, clearInterfacesList } from "./interface-collector";
+import { ISimpleDict } from "../types";
 
 /** 平台的 API 包含 public API 和 internal API, 在 swagger 当中通过 tag 来区分 */
 
@@ -68,7 +69,13 @@ interface IPathNode {
 
 // 开始生成代码
 
-export let generateCodeOfChildren = (swaggerSpec: Spec, pathNodes: IPathNode[], tagFilter: FuncTagFilter) => {
+export let generateCodeOfChildren = (
+  swaggerSpec: Spec,
+  pathNodes: IPathNode[],
+  tagFilter: FuncTagFilter,
+  pathPreferences: IPathPreferenceConfigs,
+  definedQueryTypes: ISimpleDict
+) => {
   if (pathNodes == null || pathNodes.length === 0) {
     return "";
   }
@@ -77,22 +84,29 @@ export let generateCodeOfChildren = (swaggerSpec: Spec, pathNodes: IPathNode[], 
       let apiCode = "";
       let preference = pathPreferences[node.original];
       if (node.original != null) {
-        apiCode = generateApiFunctions(node.original, swaggerSpec.paths[node.original], tagFilter);
+        apiCode = generateApiFunctions(node.original, swaggerSpec.paths[node.original], tagFilter, pathPreferences, definedQueryTypes);
       }
 
       return `
     ${node.chunk}: {
       ${apiCode}
-      ${generateCodeOfChildren(swaggerSpec, node.children, tagFilter)}
+      ${generateCodeOfChildren(swaggerSpec, node.children, tagFilter, pathPreferences, definedQueryTypes)}
     },
     `.trim();
     })
     .join("\n");
 };
 
-export let generateApiTreeCode = (swaggerSpec: Spec, name: string, pathNodes: IPathNode[], tagFilter: FuncTagFilter) => {
+export let generateApiTreeCode = (
+  swaggerSpec: Spec,
+  name: string,
+  pathNodes: IPathNode[],
+  tagFilter: FuncTagFilter,
+  pathPreferences: IPathPreferenceConfigs,
+  definedQueryTypes: ISimpleDict
+) => {
   clearInterfacesList();
-  let body = generateCodeOfChildren(swaggerSpec, pathNodes, tagFilter);
+  let body = generateCodeOfChildren(swaggerSpec, pathNodes, tagFilter, pathPreferences, definedQueryTypes);
   return `
   export let ${name} = {
     ${body}

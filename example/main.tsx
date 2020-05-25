@@ -1,9 +1,12 @@
 // 应用启动之前修改 baseURL
-configureSeedHosts({
-  apiHost: injectedApiHost,
-  mockHost: "/mock",
-  mockedPaths: [],
-});
+configureSeedHosts(
+  {
+    apiHost: injectedApiHost,
+    mockHost: "/mock",
+    mockedPaths: [],
+  },
+  {}
+);
 
 import ReactDOM from "react-dom";
 import React from "react";
@@ -15,7 +18,7 @@ import { parseRoutePath } from "@jimengio/ruled-router";
 import { routerRules } from "./models/router-rules";
 
 import Container from "./pages/container";
-import { genSeedApiTree } from "../src/index";
+import { genSeedApiTree } from "./generated-api-tree";
 import { GenRouterTypeMain } from "controller/generated-router";
 import { configureSeedHosts } from "../src/configs";
 import { JimuApisEventBus, EJimuApiEvent } from "@jimengio/api-base";

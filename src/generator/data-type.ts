@@ -7,7 +7,6 @@ import {
 
 import { toPairs } from "lodash";
 import { isArray } from "util";
-import { definedQueryTypes } from "../preference";
 
 let guessQueryNameType = (name: string) => {
   if (name.endsWith("Id")) {
@@ -18,7 +17,11 @@ let guessQueryNameType = (name: string) => {
   }
 };
 
-export let generateOptionsInterfaceCode = (parameters: SwaggerQueryParameter[], /** 允许重置为 any */ defaultType?: string) => {
+export let generateOptionsInterfaceCode = (
+  parameters: SwaggerQueryParameter[],
+  /** 允许重置为 any */ defaultType: string,
+  definedQueryTypes: { [k: string]: string }
+) => {
   let pairsCode = parameters
     .map((p) => {
       if (p.type !== "string") {

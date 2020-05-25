@@ -1,4 +1,4 @@
-import { IPathPreference, pathPreferences } from "../preference";
+import { IPathPreference, IPathPreferenceConfigs } from "../preference";
 
 import {
   Path as SwaggerPathConfig,
@@ -22,6 +22,7 @@ import {
 } from "./util/string";
 import { generateOptionsInterfaceCode, generateDataInterfaceCode } from "./data-type";
 import { collectInterface, collectSimpleType } from "./interface-collector";
+import { ISimpleDict } from "../types";
 
 let apiType = "IJimuApiOption";
 
@@ -32,7 +33,13 @@ let getPathParamsCode = (pathname: string) => {
 };
 
 /** 生成请求的 query 参数和类型 */
-let getQueryOptionsCode = (originalUrl: string, parameters: SwaggerParameter[], existedName: string, disableCollecting?: boolean) => {
+let getQueryOptionsCode = (
+  originalUrl: string,
+  parameters: SwaggerParameter[],
+  existedName: string,
+  definedQueryTypes?: ISimpleDict,
+  disableCollecting?: boolean
+) => {
   let queryParameters = parameters.filter((x) => x.in === "query").map((x) => x as SwaggerQueryParameter);
 
   let queryOptionsCode = "";
@@ -40,7 +47,7 @@ let getQueryOptionsCode = (originalUrl: string, parameters: SwaggerParameter[], 
   let queryName = "";
   if (queryParameters.length > 0) {
     queryName = defineQueryInterfaceName(originalUrl);
-    let queryCode = generateOptionsInterfaceCode(queryParameters, "any");
+    let queryCode = generateOptionsInterfaceCode(queryParameters, "any", definedQueryTypes);
 
     if (!disableCollecting) {
       collectInterface(queryName, queryCode);
@@ -161,15 +168,14 @@ let getResponseCode = (
 
 // 定义各个请求具体生成代码的逻辑
 
-let genGetFunc = (originalUrl: string, pathOperation: SwaggerPathOperation) => {
-  let preference = pathPreferences[originalUrl] ?? {};
+let genGetFunc = (originalUrl: string, pathOperation: SwaggerPathOperation, preference: IPathPreference, definedQueryTypes: ISimpleDict) => {
   let doc = getDocumentCode(originalUrl, pathOperation, preference);
 
   let base = getBaseUrl(pathOperation.tags, originalUrl);
   let pathname = grabPathname(originalUrl);
   let pathParams = getPathParamsCode(pathname);
 
-  let genQuery = getQueryOptionsCode(originalUrl, pathOperation.parameters as SwaggerParameter[], preference.existedQueryType);
+  let genQuery = getQueryOptionsCode(originalUrl, pathOperation.parameters as SwaggerParameter[], preference.existedQueryType, definedQueryTypes);
   let genResponse = getResponseCode(originalUrl, pathOperation.responses, "Get", preference.existedGetResultType);
 
   // GET 应该没有 body
@@ -184,15 +190,14 @@ let genGetFunc = (originalUrl: string, pathOperation: SwaggerPathOperation) => {
   );
 };
 
-let genPostFunc = (originalUrl: string, pathOperation: SwaggerPathOperation) => {
-  let preference = pathPreferences[originalUrl] ?? {};
+let genPostFunc = (originalUrl: string, pathOperation: SwaggerPathOperation, preference: IPathPreference, definedQueryTypes: ISimpleDict) => {
   let doc = getDocumentCode(originalUrl, pathOperation, preference);
 
   let base = getBaseUrl(pathOperation.tags, originalUrl);
   let pathname = grabPathname(originalUrl);
   let pathParams = getPathParamsCode(pathname);
 
-  let genQuery = getQueryOptionsCode(originalUrl, pathOperation.parameters as SwaggerParameter[], preference.existedQueryType);
+  let genQuery = getQueryOptionsCode(originalUrl, pathOperation.parameters as SwaggerParameter[], preference.existedQueryType, definedQueryTypes);
   let genBody = getBodyCode(originalUrl, pathOperation.parameters as SwaggerParameter[], preference.existedBodyType, "Post");
   let genResponse = getResponseCode(originalUrl, pathOperation.responses, "Post", preference.existedPostResultType);
 
@@ -206,15 +211,14 @@ let genPostFunc = (originalUrl: string, pathOperation: SwaggerPathOperation) => 
   );
 };
 
-let genPutFunc = (originalUrl: string, pathOperation: SwaggerPathOperation) => {
-  let preference = pathPreferences[originalUrl] ?? {};
+let genPutFunc = (originalUrl: string, pathOperation: SwaggerPathOperation, preference: IPathPreference, definedQueryTypes: ISimpleDict) => {
   let doc = getDocumentCode(originalUrl, pathOperation, preference);
 
   let base = getBaseUrl(pathOperation.tags, originalUrl);
   let pathname = grabPathname(originalUrl);
   let pathParams = getPathParamsCode(pathname);
 
-  let genQuery = getQueryOptionsCode(originalUrl, pathOperation.parameters as SwaggerParameter[], preference.existedQueryType);
+  let genQuery = getQueryOptionsCode(originalUrl, pathOperation.parameters as SwaggerParameter[], preference.existedQueryType, definedQueryTypes);
   let genBody = getBodyCode(originalUrl, pathOperation.parameters as SwaggerParameter[], preference.existedBodyType, "Put");
   let genResponse = getResponseCode(originalUrl, pathOperation.responses, "Put", preference.existedPutResultType);
 
@@ -228,8 +232,7 @@ let genPutFunc = (originalUrl: string, pathOperation: SwaggerPathOperation) => {
   );
 };
 
-let genDeleleFunc = (originalUrl: string, pathOperation: SwaggerPathOperation) => {
-  let preference = pathPreferences[originalUrl] ?? {};
+let genDeleleFunc = (originalUrl: string, pathOperation: SwaggerPathOperation, preference: IPathPreference) => {
   let doc = getDocumentCode(originalUrl, pathOperation, preference);
 
   let base = getBaseUrl(pathOperation.tags, originalUrl);
@@ -247,9 +250,7 @@ let genDeleleFunc = (originalUrl: string, pathOperation: SwaggerPathOperation) =
 
 // Generate Hooks API
 
-let genUseGetFunc = (originalUrl: string, pathOperation: SwaggerPathOperation) => {
-  let preference = pathPreferences[originalUrl] ?? {};
-
+let genUseGetFunc = (originalUrl: string, pathOperation: SwaggerPathOperation, preference: IPathPreference, definedQueryTypes: ISimpleDict) => {
   let base = getBaseUrl(pathOperation.tags, originalUrl);
   let baseKind = getBaseUrlKind(pathOperation.tags);
   let pathname = grabPathname(originalUrl);
@@ -257,7 +258,7 @@ let genUseGetFunc = (originalUrl: string, pathOperation: SwaggerPathOperation) =
 
   let doc = getDocumentCode(originalUrl, pathOperation, preference);
 
-  let genQuery = getQueryOptionsCode(originalUrl, pathOperation.parameters as SwaggerParameter[], preference.existedQueryType, true);
+  let genQuery = getQueryOptionsCode(originalUrl, pathOperation.parameters as SwaggerParameter[], preference.existedQueryType, definedQueryTypes, true);
   let genResponse = getResponseCode(originalUrl, pathOperation.responses, "Get", preference.existedGetResultType, true);
 
   if (preference.hookGetFunc != null) {
@@ -276,9 +277,7 @@ let genUseGetFunc = (originalUrl: string, pathOperation: SwaggerPathOperation) =
   );
 };
 
-let genUsePostFunc = (originalUrl: string, pathOperation: SwaggerPathOperation) => {
-  let preference = pathPreferences[originalUrl] ?? {};
-
+let genUsePostFunc = (originalUrl: string, pathOperation: SwaggerPathOperation, preference: IPathPreference, definedQueryTypes: ISimpleDict) => {
   let base = getBaseUrl(pathOperation.tags, originalUrl);
   let baseKind = getBaseUrlKind(pathOperation.tags);
   let pathname = grabPathname(originalUrl);
@@ -286,7 +285,7 @@ let genUsePostFunc = (originalUrl: string, pathOperation: SwaggerPathOperation) 
 
   let doc = getDocumentCode(originalUrl, pathOperation, preference);
 
-  let genQuery = getQueryOptionsCode(originalUrl, pathOperation.parameters as SwaggerParameter[], preference.existedQueryType, true);
+  let genQuery = getQueryOptionsCode(originalUrl, pathOperation.parameters as SwaggerParameter[], preference.existedQueryType, definedQueryTypes, true);
   let genBody = getBodyCode(originalUrl, pathOperation.parameters as SwaggerParameter[], preference.existedBodyType, "Post", true);
   let genResponse = getResponseCode(originalUrl, pathOperation.responses, "Post", preference.existedGetResultType, true);
 
@@ -305,9 +304,7 @@ let genUsePostFunc = (originalUrl: string, pathOperation: SwaggerPathOperation) 
   );
 };
 
-let genUsePutFunc = (originalUrl: string, pathOperation: SwaggerPathOperation) => {
-  let preference = pathPreferences[originalUrl] ?? {};
-
+let genUsePutFunc = (originalUrl: string, pathOperation: SwaggerPathOperation, preference: IPathPreference, definedQueryTypes: ISimpleDict) => {
   let base = getBaseUrl(pathOperation.tags, originalUrl);
   let baseKind = getBaseUrlKind(pathOperation.tags);
   let pathname = grabPathname(originalUrl);
@@ -315,7 +312,7 @@ let genUsePutFunc = (originalUrl: string, pathOperation: SwaggerPathOperation) =
 
   let doc = getDocumentCode(originalUrl, pathOperation, preference);
 
-  let genQuery = getQueryOptionsCode(originalUrl, pathOperation.parameters as SwaggerParameter[], preference.existedQueryType, true);
+  let genQuery = getQueryOptionsCode(originalUrl, pathOperation.parameters as SwaggerParameter[], preference.existedQueryType, definedQueryTypes, true);
   let genBody = getBodyCode(originalUrl, pathOperation.parameters as SwaggerParameter[], preference.existedBodyType, "Put", true);
   let genResponse = getResponseCode(originalUrl, pathOperation.responses, "Put", preference.existedGetResultType, true);
 
@@ -334,9 +331,7 @@ let genUsePutFunc = (originalUrl: string, pathOperation: SwaggerPathOperation) =
   );
 };
 
-let genUseDeleteFunc = (originalUrl: string, pathOperation: SwaggerPathOperation) => {
-  let preference = pathPreferences[originalUrl] ?? {};
-
+let genUseDeleteFunc = (originalUrl: string, pathOperation: SwaggerPathOperation, preference: IPathPreference) => {
   let base = getBaseUrl(pathOperation.tags, originalUrl);
   let baseKind = getBaseUrlKind(pathOperation.tags);
   let pathname = grabPathname(originalUrl);
@@ -358,27 +353,34 @@ let genUseDeleteFunc = (originalUrl: string, pathOperation: SwaggerPathOperation
 
 // Generate all
 
-export let generateApiFunctions = (originalUrl: string, pathConfig: SwaggerPathConfig, tagFilter: (tags: string[]) => boolean) => {
+export let generateApiFunctions = (
+  originalUrl: string,
+  pathConfig: SwaggerPathConfig,
+  tagFilter: (tags: string[]) => boolean,
+  pathPreferences: IPathPreferenceConfigs,
+  definedQueryTypes: ISimpleDict
+) => {
   let result = "";
+  let preference = pathPreferences[originalUrl] ?? {};
 
   if (pathConfig.get != null && tagFilter(pathConfig.get.tags)) {
-    result += genGetFunc(originalUrl, pathConfig.get);
-    result += genUseGetFunc(originalUrl, pathConfig.get);
+    result += genGetFunc(originalUrl, pathConfig.get, preference, definedQueryTypes);
+    result += genUseGetFunc(originalUrl, pathConfig.get, preference, definedQueryTypes);
   }
 
   if (pathConfig.post != null && tagFilter(pathConfig.post.tags)) {
-    result += genPostFunc(originalUrl, pathConfig.post);
-    result += genUsePostFunc(originalUrl, pathConfig.post);
+    result += genPostFunc(originalUrl, pathConfig.post, preference, definedQueryTypes);
+    result += genUsePostFunc(originalUrl, pathConfig.post, preference, definedQueryTypes);
   }
 
   if (pathConfig.put != null && tagFilter(pathConfig.put.tags)) {
-    result += genPutFunc(originalUrl, pathConfig.put);
-    result += genUsePutFunc(originalUrl, pathConfig.put);
+    result += genPutFunc(originalUrl, pathConfig.put, preference, definedQueryTypes);
+    result += genUsePutFunc(originalUrl, pathConfig.put, preference, definedQueryTypes);
   }
 
   if (pathConfig.delete != null && tagFilter(pathConfig.delete.tags)) {
-    result += genDeleleFunc(originalUrl, pathConfig.delete);
-    result += genUseDeleteFunc(originalUrl, pathConfig.delete);
+    result += genDeleleFunc(originalUrl, pathConfig.delete, preference);
+    result += genUseDeleteFunc(originalUrl, pathConfig.delete, preference);
   }
 
   return result;

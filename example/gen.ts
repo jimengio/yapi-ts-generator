@@ -1,5 +1,5 @@
 import { Spec } from "swagger-schema-official";
-import { pathPreferences, IPathPreference } from "../src/preference";
+import { IPathPreference } from "../src/preference";
 let swaggerSpec: Spec = require("./swagger-api.json");
 
 import * as fs from "fs";
@@ -7,6 +7,8 @@ import * as path from "path";
 import * as prettier from "prettier";
 import { getPathChunks, grabPathname } from "../src/generator/util/string";
 import { generateApiTreeCode, buildTree, checkPaths } from "../src/generator/main";
+
+import { pathPreferences, definedQueryTypes } from "./preference";
 
 /** 平台的 API 包含 public API 和 internal API, 在 swagger 当中通过 tag 来区分 */
 export let byPublicApi = (tags: string[]) => {
@@ -78,7 +80,7 @@ let internalApiTree: IPathNode[] = buildTree(
 
 // 开始生成代码
 
-let generatedCode = generateApiTreeCode(swaggerSpec, "genSeedApiTree", apiTree, byPublicApi);
+let generatedCode = generateApiTreeCode(swaggerSpec, "genSeedApiTree", apiTree, byPublicApi, pathPreferences, definedQueryTypes);
 
 // Format with Prettier
 let prettierConfigs = JSON.parse(fs.readFileSync(path.join(process.env.PWD, ".prettierrc"), "utf8"));
