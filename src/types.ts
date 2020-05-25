@@ -6,3 +6,7 @@ export enum EApiKind {
   public,
   internal,
 }
+
+export type ISimpleDict = {
+  [k: string]: string;
+};
