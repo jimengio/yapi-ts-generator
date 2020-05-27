@@ -1,8 +1,6 @@
 import { get, post, put, del, IJimuApiOption } from "@jimengio/api-base";
 import { useState, useEffect } from "react";
 import { useDeepCompareEffectNoCheck } from "use-deep-compare-effect";
-import { insertPublicHost } from "./configs";
-import { EApiKind } from "./types";
 import queryString from "query-string";
 
 let joinUrl = (base: string, path: string, params?: { [k: string]: any }) => {
@@ -50,7 +48,7 @@ export let ajaxDelete = (base: string, url: string, apiOptions: IJimuApiOption):
   });
 };
 
-export let dynamicGet = <RESULT, S = any, PARAMS = { [k: string]: any }>(baseKind: EApiKind, originalUrl: string) => {
+export let dynamicGet = <RESULT, S = any, PARAMS = { [k: string]: any }>(base: string, originalUrl: string) => {
   let [result, setResult] = useState<RESULT>(undefined);
   let [isLoading, setLoading] = useState(false);
 
@@ -63,7 +61,7 @@ export let dynamicGet = <RESULT, S = any, PARAMS = { [k: string]: any }>(baseKin
 
     try {
       let r = await get<RESULT>({
-        baseURL: insertPublicHost(originalUrl),
+        baseURL: base,
         url: replacedUrl,
         query: options as any,
         ...apiOptions,
@@ -87,7 +85,7 @@ export let dynamicGet = <RESULT, S = any, PARAMS = { [k: string]: any }>(baseKin
       return replacedUrl;
     }
 
-    return joinUrl(insertPublicHost(originalUrl), replacedUrl, query);
+    return joinUrl(base, replacedUrl, query);
   };
 
   return {
@@ -133,7 +131,7 @@ export let hooksGet = <RESULT, S = any>(base: string, url: string, options: S, a
   };
 };
 
-export let dynamicPost = <RESULT, BODY, OPTIONS = any, PARAMS = { [k: string]: any }>(baseKind: EApiKind, originalUrl: string) => {
+export let dynamicPost = <RESULT, BODY, OPTIONS = any, PARAMS = { [k: string]: any }>(base: string, originalUrl: string) => {
   let [isLoading, setLoading] = useState(false);
 
   let request = async (params: PARAMS, body: BODY, options?: OPTIONS, apiOptions?: IJimuApiOption) => {
@@ -145,7 +143,7 @@ export let dynamicPost = <RESULT, BODY, OPTIONS = any, PARAMS = { [k: string]: a
 
     try {
       let r = await post<RESULT>({
-        baseURL: insertPublicHost(originalUrl),
+        baseURL: base,
         url: replacedUrl,
         data: body,
         query: options as any,
@@ -169,7 +167,7 @@ export let dynamicPost = <RESULT, BODY, OPTIONS = any, PARAMS = { [k: string]: a
     if (pathOnly) {
       return replacedUrl;
     }
-    return joinUrl(insertPublicHost(originalUrl), replacedUrl);
+    return joinUrl(base, replacedUrl);
   };
 
   return {
@@ -221,7 +219,7 @@ let relpaceTemplate = (template: string, params: { [k: string]: any }): string =
   return x;
 };
 
-export let dynamicPut = <RESULT, BODY, OPTIONS = any, PARAMS = { [k: string]: any }>(baseKind: EApiKind, originalUrl: string) => {
+export let dynamicPut = <RESULT, BODY, OPTIONS = any, PARAMS = { [k: string]: any }>(base: string, originalUrl: string) => {
   let [isLoading, setLoading] = useState(false);
 
   let request = async (params: PARAMS, body: BODY, options?: OPTIONS, apiOptions?: IJimuApiOption) => {
@@ -233,7 +231,7 @@ export let dynamicPut = <RESULT, BODY, OPTIONS = any, PARAMS = { [k: string]: an
     let replacedUrl = relpaceTemplate(originalUrl, params);
     try {
       let r = await put<RESULT>({
-        baseURL: insertPublicHost(originalUrl),
+        baseURL: base,
         url: replacedUrl,
         data: body,
         query: options as any,
@@ -257,7 +255,7 @@ export let dynamicPut = <RESULT, BODY, OPTIONS = any, PARAMS = { [k: string]: an
     if (pathOnly) {
       return replacedUrl;
     }
-    return joinUrl(insertPublicHost(originalUrl), replacedUrl);
+    return joinUrl(base, replacedUrl);
   };
 
   return {
@@ -297,7 +295,7 @@ export let hooksPut = <RESULT, BODY, OPTIONS = any>(base: string, url: string) =
   };
 };
 
-export let dynamicDelete = <PARAMS = { [k: string]: any }>(baseKind: EApiKind, originalUrl: string) => {
+export let dynamicDelete = <PARAMS = { [k: string]: any }>(base: string, originalUrl: string) => {
   let [isLoading, setLoading] = useState(false);
 
   let request = async (params: PARAMS, apiOptions?: IJimuApiOption) => {
@@ -309,7 +307,7 @@ export let dynamicDelete = <PARAMS = { [k: string]: any }>(baseKind: EApiKind, o
     let replacedUrl = relpaceTemplate(originalUrl, params);
     try {
       let r = await del<void>({
-        baseURL: insertPublicHost(originalUrl),
+        baseURL: base,
         url: replacedUrl,
         ...apiOptions,
       });

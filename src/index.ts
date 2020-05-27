@@ -1,1 +1,0 @@
-export { configureSeedHosts } from "./configs";

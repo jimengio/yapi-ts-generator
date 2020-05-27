@@ -1,7 +1,7 @@
 import React, { FC, useEffect } from "react";
 import { css } from "emotion";
 import { JimoButton } from "@jimengio/jimo-basics";
-import { genSeedApiTree } from "../../src";
+import { genSeedApiTree } from "../generated-api-tree";
 import { DocDemo, DocSnippet, DocBlock } from "@jimengio/doc-frame";
 import { Space } from "@jimengio/flex-styles";
 
