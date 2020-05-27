@@ -1,22 +1,18 @@
-name: Run tests
+name: npm publish
 
 on:
-  pull_request: {}
-  push:
-    branches:
-      - master
+  release:
+    types: [created]
 
 jobs:
-  build:
+  publish-npm:
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v2
-      - name: Use Node.js
-        uses: actions/setup-node@v1
-
-      - name: Use Node.js
-        uses: actions/setup-node@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12
+          registry-url: https://registry.npmjs.org/
 
       - name: Get yarn cache
         id: yarn-cache
@@ -29,6 +25,6 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-yarn-
 
-      - run: yarn
-
-      - run: yarn gen && yarn compile && yarn release
+      - run: yarn && yarn compile && npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.npm_token}}

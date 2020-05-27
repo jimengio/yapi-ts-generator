@@ -1,6 +1,6 @@
 {
   "name": "@jimengio/yapi-ts-generator",
-  "version": "0.0.7",
+  "version": "0.0.1-a1",
   "description": "",
   "main": "lib/index.js",
   "scripts": {

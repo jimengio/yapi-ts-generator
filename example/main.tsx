@@ -1,4 +1,5 @@
-import { pathPreferences } from "preference";
+import { pathPreferences } from "./preference";
+import { configureSeedHosts } from "./configs";
 
 // 应用启动之前修改 baseURL
 configureSeedHosts(
@@ -22,7 +23,6 @@ import { routerRules } from "./models/router-rules";
 import Container from "./pages/container";
 import { genSeedApiTree } from "./generated-api-tree";
 import { GenRouterTypeMain } from "controller/generated-router";
-import { configureSeedHosts } from "../src/configs";
 import { JimuApisEventBus, EJimuApiEvent } from "@jimengio/api-base";
 
 declare const injectedApiHost: string;

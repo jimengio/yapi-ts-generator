@@ -271,7 +271,7 @@ let genUseGetFunc = (originalUrl: string, pathOperation: SwaggerPathOperation, p
     `${doc}useGET: (${joinParams(pathParams, genQuery.nameWithType, `opts?: ${apiType}`)}) => ` +
     ` hooksGet<${joinParams(genResponse.type, genQuery.type)}>(${joinParams(base, asStr(pathname), genQuery.name, `opts`)}),` +
     `${doc}dynamicGET: () => dynamicGet<${joinTypeParams(genResponse.type, genQuery.type, `{${pathParams}}`)}, >(${joinParams(
-      baseKind,
+      base,
       JSON.stringify(pathname)
     )}),`
   );
@@ -298,7 +298,7 @@ let genUsePostFunc = (originalUrl: string, pathOperation: SwaggerPathOperation, 
   return (
     `${doc}usePOST: (${pathParams}) => hooksPost<${joinParams(genResponse.type, genBody.type, genQuery.type)}>(${joinParams(base, asStr(pathname))}),` +
     `${doc}dynamicPOST: () => dynamicPost<${joinTypeParams(genResponse.type, genBody.type, genQuery.type, `{${pathParams}}`)}, >(${joinParams(
-      baseKind,
+      base,
       JSON.stringify(pathname)
     )}),`
   );
@@ -325,7 +325,7 @@ let genUsePutFunc = (originalUrl: string, pathOperation: SwaggerPathOperation, p
   return (
     `${doc}usePUT: (${pathParams}) => hooksPut<${joinParams(genResponse.type, genBody.type, genQuery.type)}>(${joinParams(base, asStr(pathname))}),` +
     `${doc}dynamicPut: () => dynamicPut<${joinTypeParams(genResponse.type, genBody.type, genQuery.type, `{${pathParams}}`)}>(${joinParams(
-      baseKind,
+      base,
       JSON.stringify(pathname)
     )}),`
   );

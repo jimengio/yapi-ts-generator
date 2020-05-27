@@ -7,7 +7,7 @@
 ### Usages
 
 ```yarn
-yarn add jimengio/yapi-ts-generator#0.0.3-a1 # 注意调整对应的版本或者分支名
+yarn add @jimengio/yapi-ts-generator#0.0.3-a1 # 注意调整对应的版本或者分支名
 ```
 
 ```ts

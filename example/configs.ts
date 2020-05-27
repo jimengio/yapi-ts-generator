@@ -1,4 +1,4 @@
-import { IPathPreferenceConfigs } from "./preference";
+import { IPathPreferenceConfigs } from "../src/preference";
 
 let apiHost = "/public";
 

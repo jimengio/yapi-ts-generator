@@ -1,6 +1,6 @@
 import { IJimuApiOption } from "@jimengio/api-base";
 import { Id, EApiKind } from "../src/types";
-import { insertPublicHost } from "../src/configs";
+import { insertPublicHost } from "./configs";
 import {
   ajaxGet,
   ajaxDelete,
@@ -27,7 +27,7 @@ export let genSeedApiTree = {
       /** 更新用户信息 */
       usePOST: () => hooksPost<IApiResultPost_UserInfo, IApiBodyPost_UserInfo>(insertPublicHost("/user/info"), `/user/info`),
       /** 更新用户信息 */
-      dynamicPOST: () => dynamicPost<IApiResultPost_UserInfo, IApiBodyPost_UserInfo, {}, {}>(EApiKind.public, "/user/info"),
+      dynamicPOST: () => dynamicPost<IApiResultPost_UserInfo, IApiBodyPost_UserInfo, {}, {}>(insertPublicHost("/user/info"), "/user/info"),
     },
     me: {
       /** 用户信息 */
@@ -36,7 +36,7 @@ export let genSeedApiTree = {
       useGET: (q?: IApiQuery_UserMe, opts?: IJimuApiOption) =>
         hooksGet<IApiResultGet_UserMe, IApiQuery_UserMe>(insertPublicHost("/user/me"), `/user/me`, q, opts),
       /** 用户信息 */
-      dynamicGET: () => dynamicGet<IApiResultGet_UserMe, IApiQuery_UserMe, {}>(EApiKind.public, "/user/me"),
+      dynamicGET: () => dynamicGet<IApiResultGet_UserMe, IApiQuery_UserMe, {}>(insertPublicHost("/user/me"), "/user/me"),
     },
   },
 };
