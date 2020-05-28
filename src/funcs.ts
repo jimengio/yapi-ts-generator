@@ -1,7 +1,7 @@
 import { get, post, put, del, IJimuApiOption } from "@jimengio/api-base";
 import { useState, useEffect } from "react";
 import { useDeepCompareEffectNoCheck } from "use-deep-compare-effect";
-import queryString from "query-string";
+import * as queryString from "query-string";
 
 let joinUrl = (base: string, path: string, params?: { [k: string]: any }) => {
   let searchParams = queryString.stringify(params);
