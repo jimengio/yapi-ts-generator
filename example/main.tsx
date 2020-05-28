@@ -29,9 +29,9 @@ declare const injectedApiHost: string;
 declare const injectedInternalApiHost: string;
 
 const renderApp = () => {
-  let routerTree = parseRoutePath(window.location.hash.slice(1), routerRules) as GenRouterTypeMain;
+  let routerTree = parseRoutePath(window.location.hash.slice(1), routerRules);
 
-  ReactDOM.render(<Container router={routerTree} />, document.querySelector(".app"));
+  ReactDOM.render(<Container router={routerTree as any} />, document.querySelector(".app"));
 };
 
 window.onload = renderApp;
