@@ -1,6 +1,6 @@
 {
   "name": "@jimengio/yapi-ts-generator",
-  "version": "0.0.1-a2",
+  "version": "0.0.1-a3",
   "description": "",
   "main": "lib/index.js",
   "types": "./lib/index.d.ts",
@@ -15,7 +15,7 @@
     "compile": "rm -rfv lib/* && tsc -d --project tsconfig-compile.json --outDir lib/",
     "add-code": "git add .",
     "gen": "yarn ts-node --project tsconfig-node.json example/gen.ts",
-    "mv": "mv ~/Downloads/swaggerApi.json generator/swagger-api.json",
+    "mv": "mv ~/Downloads/swaggerApi.json example/swagger-api.json",
     "upload": "rsync -avr --progress dist/ work:/usr/static/jimengio/seed-apis",
     "gen-router": "ts-node -P tsconfig-node.json -r tsconfig-paths/register example/gen-router.ts",
     "postinstall": "rm -rfv node_modules/@types/*/node_modules/@types/react"

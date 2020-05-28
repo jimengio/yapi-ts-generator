@@ -15,6 +15,34 @@
     "http"
   ],
   "paths": {
+    "/user/accesses/{id}": {
+      "get": {
+        "tags": [
+          "api.user"
+        ],
+        "summary": "删除登录记录",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "title": "empty object",
+              "properties": {}
+            }
+          }
+        }
+      }
+    },
     "/user/info": {
       "post": {
         "tags": [

@@ -20,6 +20,17 @@ import {
 
 export let genSeedApiTree = {
   user: {
+    accesses: {
+      _: {
+        /** 删除登录记录 */
+        GET: (id: Id, opts?: IJimuApiOption) => ajaxGet<IApiResultGet_UserAccesses_>(insertPublicHost("/user/accesses/{id}"), `/user/accesses/${id}`, {}, opts),
+        /** 删除登录记录 */
+        useGET: (id: Id, opts?: IJimuApiOption) =>
+          hooksGet<IApiResultGet_UserAccesses_>(insertPublicHost("/user/accesses/{id}"), `/user/accesses/${id}`, {}, opts),
+        /** 删除登录记录 */
+        dynamicGET: () => dynamicGet<IApiResultGet_UserAccesses_, {}, { id: Id }>(insertPublicHost("/user/accesses/{id}"), "/user/accesses/${id}"),
+      },
+    },
     info: {
       /** 更新用户信息 */
       POST: (body: IApiBodyPost_UserInfo, opts?: IJimuApiOption) =>
@@ -49,6 +60,7 @@ export interface IApiQuery_UserMe {
   /** 包含详细信息 */
   withPosition?: any;
 }
+export interface IApiResultGet_UserAccesses_ {}
 export interface IApiResultGet_UserMe {
   id: string;
   name: string;

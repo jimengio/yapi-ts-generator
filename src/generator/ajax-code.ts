@@ -347,7 +347,7 @@ let genUseDeleteFunc = (originalUrl: string, pathOperation: SwaggerPathOperation
 
   return (
     `${doc}useDELETE: (${pathParams}) => hooksDelete(${joinParams(base, asStr(pathname))}),` +
-    `${doc}dynamicDELETE: () => dynamicDelete<{${pathParams}}>(${joinParams(baseKind, JSON.stringify(pathname))}),`
+    `${doc}dynamicDELETE: () => dynamicDelete<{${pathParams}}>(${joinParams(base, JSON.stringify(pathname))}),`
   );
 };
 
