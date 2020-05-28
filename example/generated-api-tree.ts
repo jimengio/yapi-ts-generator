@@ -39,6 +39,12 @@ export let genSeedApiTree = {
       usePOST: () => hooksPost<IApiResultPost_UserInfo, IApiBodyPost_UserInfo>(insertPublicHost("/user/info"), `/user/info`),
       /** 更新用户信息 */
       dynamicPOST: () => dynamicPost<IApiResultPost_UserInfo, IApiBodyPost_UserInfo, {}, {}>(insertPublicHost("/user/info"), "/user/info"),
+      /** 更新用户信息 */
+      PUT: (body: IApiBodyPut_UserInfo, opts?: IJimuApiOption) => ajaxPut<IApiResultPut_UserInfo>(insertPublicHost("/user/info"), `/user/info`, body, {}, opts),
+      /** 更新用户信息 */
+      usePUT: () => hooksPut<IApiResultPut_UserInfo, IApiBodyPut_UserInfo>(insertPublicHost("/user/info"), `/user/info`),
+      /** 更新用户信息 */
+      dynamicPUT: () => dynamicPut<IApiResultPut_UserInfo, IApiBodyPut_UserInfo, {}, {}>(insertPublicHost("/user/info"), "/user/info"),
     },
     me: {
       /** 用户信息 */
@@ -56,6 +62,11 @@ export interface IApiBodyPost_UserInfo {
   name: string;
   gender: string;
 }
+export interface IApiBodyPut_UserInfo {
+  id?: string;
+  name?: string;
+  position?: { id: string; name: string };
+}
 export interface IApiQuery_UserMe {
   /** 包含详细信息 */
   withPosition?: any;
@@ -69,4 +80,9 @@ export interface IApiResultGet_UserMe {
 export interface IApiResultPost_UserInfo {
   id: string;
   name: string;
+}
+export interface IApiResultPut_UserInfo {
+  id: string;
+  name: string;
+  position: { id: string; name: string };
 }
