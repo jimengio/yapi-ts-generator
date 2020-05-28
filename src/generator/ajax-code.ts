@@ -324,7 +324,7 @@ let genUsePutFunc = (originalUrl: string, pathOperation: SwaggerPathOperation, p
 
   return (
     `${doc}usePUT: (${pathParams}) => hooksPut<${joinParams(genResponse.type, genBody.type, genQuery.type)}>(${joinParams(base, asStr(pathname))}),` +
-    `${doc}dynamicPut: () => dynamicPut<${joinTypeParams(genResponse.type, genBody.type, genQuery.type, `{${pathParams}}`)}>(${joinParams(
+    `${doc}dynamicPUT: () => dynamicPut<${joinTypeParams(genResponse.type, genBody.type, genQuery.type, `{${pathParams}}`)}>(${joinParams(
       base,
       JSON.stringify(pathname)
     )}),`
