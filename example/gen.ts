@@ -1,5 +1,4 @@
 import { Spec } from "swagger-schema-official";
-import { IPathPreference } from "../src/preference";
 let swaggerSpec: Spec = require("./swagger-api.json");
 
 import * as fs from "fs";
