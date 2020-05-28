@@ -1,8 +1,9 @@
 {
   "name": "@jimengio/yapi-ts-generator",
-  "version": "0.0.1-a1",
+  "version": "0.0.1-a2",
   "description": "",
   "main": "lib/index.js",
+  "types": "./lib/index.d.ts",
   "scripts": {
     "dev": "webpack-dev-server --hot --config webpack/dev.js",
     "watch": "webpack-dev-server --hot --config webpack/dev.js",
@@ -29,7 +30,6 @@
   },
   "keywords": [],
   "author": "",
-  "private": true,
   "devDependencies": {
     "@jimengio/ci-progress-webpack-plugin": "^0.1.0",
     "@jimengio/doc-frame": "^0.1.12",
