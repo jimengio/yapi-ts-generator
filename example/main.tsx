@@ -12,6 +12,7 @@ configureSeedHosts(
 );
 
 import { JimuApisEventBus, EJimuApiEvent } from "@jimengio/api-base";
+import { genSeedApiTree } from "generated-api-tree";
 
 declare const injectedApiHost: string;
 declare const injectedInternalApiHost: string;

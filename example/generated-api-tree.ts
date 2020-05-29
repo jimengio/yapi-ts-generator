@@ -56,6 +56,22 @@ export let genSeedApiTree = {
       dynamicGET: () => dynamicGet<IApiResultGet_UserMe, IApiQuery_UserMe, {}>(insertPublicHost("/user/me"), "/user/me"),
     },
   },
+  users: {
+    /** 用户列表 */
+    GET: (q?: IApiQuery_Users, opts?: IJimuApiOption) => ajaxGet<IApiResultGet_Users>(insertPublicHost("/users"), `/users`, q, opts),
+    /** 用户列表 */
+    useGET: (q?: IApiQuery_Users, opts?: IJimuApiOption) => hooksGet<IApiResultGet_Users, IApiQuery_Users>(insertPublicHost("/users"), `/users`, q, opts),
+    /** 用户列表 */
+    dynamicGET: () => dynamicGet<IApiResultGet_Users, IApiQuery_Users, {}>(insertPublicHost("/users"), "/users"),
+    _: {
+      /** 获取特定用户 */
+      GET: (id: Id, opts?: IJimuApiOption) => ajaxGet<IApiResultGet_Users_>(insertPublicHost("/users/{id}"), `/users/${id}`, {}, opts),
+      /** 获取特定用户 */
+      useGET: (id: Id, opts?: IJimuApiOption) => hooksGet<IApiResultGet_Users_>(insertPublicHost("/users/{id}"), `/users/${id}`, {}, opts),
+      /** 获取特定用户 */
+      dynamicGET: () => dynamicGet<IApiResultGet_Users_, {}, { id: Id }>(insertPublicHost("/users/{id}"), "/users/${id}"),
+    },
+  },
 };
 
 export interface IApiBodyPost_UserInfo {
@@ -68,14 +84,28 @@ export interface IApiBodyPut_UserInfo {
   position?: { id: string; name: string };
 }
 export interface IApiQuery_UserMe {
-  /** 包含详细信息 */
+  /** 包含详细职位信息 */
   withPosition?: any;
+}
+export interface IApiQuery_Users {
+  /** 按照职位筛选 */
+  positionId?: string;
 }
 export interface IApiResultGet_UserAccesses_ {}
 export interface IApiResultGet_UserMe {
   id: string;
   name: string;
+  /** 职位信息 */
   position?: { id?: string; name?: string };
+}
+export interface IApiResultGet_Users {
+  result?: { id?: string; name?: string; position?: { id?: string; name?: string } }[];
+  total?: number;
+}
+export interface IApiResultGet_Users_ {
+  id: string;
+  name: string;
+  position?: { id: string; name: string };
 }
 export interface IApiResultPost_UserInfo {
   id: string;

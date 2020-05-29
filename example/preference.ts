@@ -4,6 +4,8 @@ export let pathPreferences: { [k: string]: IPathPreference } = {
   "/user/info": {},
   "/user/me": {},
   "/user/accesses/{id}": {},
+  "/users": {},
+  "/users/{id}": {},
 };
 
 // query 默认类型都是 string, 特殊的字段通过字典定义
