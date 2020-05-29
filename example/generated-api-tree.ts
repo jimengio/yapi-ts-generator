@@ -23,12 +23,11 @@ export let genSeedApiTree = {
     accesses: {
       _: {
         /** 删除登录记录 */
-        GET: (id: Id, opts?: IJimuApiOption) => ajaxGet<IApiResultGet_UserAccesses_>(insertPublicHost("/user/accesses/{id}"), `/user/accesses/${id}`, {}, opts),
+        DELETE: (id: Id, opts?: IJimuApiOption) => ajaxDelete(insertPublicHost("/user/accesses/{id}"), `/user/accesses/${id}`, opts),
         /** 删除登录记录 */
-        useGET: (id: Id, opts?: IJimuApiOption) =>
-          hooksGet<IApiResultGet_UserAccesses_>(insertPublicHost("/user/accesses/{id}"), `/user/accesses/${id}`, {}, opts),
+        useDELETE: (id: Id) => hooksDelete(insertPublicHost("/user/accesses/{id}"), `/user/accesses/${id}`),
         /** 删除登录记录 */
-        dynamicGET: () => dynamicGet<IApiResultGet_UserAccesses_, {}, { id: Id }>(insertPublicHost("/user/accesses/{id}"), "/user/accesses/${id}"),
+        dynamicDELETE: () => dynamicDelete<{ id: Id }>(insertPublicHost("/user/accesses/{id}"), "/user/accesses/${id}"),
       },
     },
     info: {
@@ -91,7 +90,6 @@ export interface IApiQuery_Users {
   /** 按照职位筛选 */
   positionId?: string;
 }
-export interface IApiResultGet_UserAccesses_ {}
 export interface IApiResultGet_UserMe {
   id: string;
   name: string;

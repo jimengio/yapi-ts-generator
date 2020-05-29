@@ -16,12 +16,15 @@
   ],
   "paths": {
     "/user/accesses/{id}": {
-      "get": {
+      "delete": {
         "tags": [
           "api.user"
         ],
         "summary": "删除登录记录",
         "description": "",
+        "consumes": [
+          "multipart/form-data"
+        ],
         "parameters": [
           {
             "name": "id",
