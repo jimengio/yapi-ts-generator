@@ -2,14 +2,11 @@ import { pathPreferences } from "./preference";
 import { configureSeedHosts } from "./configs";
 
 // 应用启动之前修改 baseURL
-configureSeedHosts(
-  {
-    apiHost: injectedApiHost,
-    mockHost: "/mock",
-    mockedPaths: [],
-  },
-  pathPreferences
-);
+configureSeedHosts({
+  apiHost: injectedApiHost,
+  mockHost: "/mock",
+  mockedPaths: [],
+});
 
 import { JimuApisEventBus, EJimuApiEvent } from "@jimengio/api-base";
 import { genSeedApiTree } from "generated-api-tree";

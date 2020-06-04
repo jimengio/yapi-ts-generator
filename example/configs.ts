@@ -1,4 +1,5 @@
 import { IPathPreferenceConfigs } from "../src/preference";
+import { pathPreferences } from "preference";
 
 let apiHost = "/public";
 
@@ -22,7 +23,7 @@ interface IHostOptions {
   mockedPaths?: string[];
 }
 
-export let configureSeedHosts = (options: IHostOptions, pathPreferences: IPathPreferenceConfigs) => {
+export let configureSeedHosts = (options: IHostOptions) => {
   apiHost = options.apiHost;
 
   if (options.mockHost != null) {
