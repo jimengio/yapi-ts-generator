@@ -87,7 +87,7 @@ module.exports = {
         NODE_ENV: JSON.stringify("development"),
       },
     }),
-    new ForkTsCheckerWebpackPlugin({ checkSyntacticErrors: true, async: false }),
+    new ForkTsCheckerWebpackPlugin({ async: false }),
     new webpack.DllReferencePlugin({
       manifest: path.resolve(__dirname, "dll/manifest.json"),
     }),
