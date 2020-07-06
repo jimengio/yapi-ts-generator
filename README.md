@@ -1,6 +1,7 @@
 ## YAPI ts generator
 
 > 基于 YAPI 提供的 swagger JSON 生成 TypeScript 代码, 作为 React Hooks 使用.
+> 参考 https://github.com/jimengio/table-form-example/ 当中的示例.
 
 ### Usages
 
