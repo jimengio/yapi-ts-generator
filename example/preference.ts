@@ -8,6 +8,7 @@ export let pathPreferences: { [k: string]: IPathPreference } = {
   "/users/{id}": {},
   "/tasks": {},
   "/tasks/{id}": {},
+  "/tasks/dict": {},
 };
 
 // query 默认类型都是 string, 特殊的字段通过字典定义

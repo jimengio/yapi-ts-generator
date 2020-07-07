@@ -467,6 +467,59 @@
         }
       }
     },
+    "/tasks/dict": {
+      "get": {
+        "tags": [
+          "api.task"
+        ],
+        "summary": "任务字典",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "title": "empty object",
+              "properties": {
+                "{taskId}": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "content": {
+                      "type": "string"
+                    },
+                    "finished": {
+                      "type": "string"
+                    },
+                    "createdAt": {
+                      "type": "string"
+                    },
+                    "priority": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "title",
+                    "finished",
+                    "content"
+                  ]
+                }
+              },
+              "required": [
+                "{taskId}"
+              ]
+            }
+          }
+        }
+      }
+    },
     "/tasks/{id}": {
       "delete": {
         "tags": [

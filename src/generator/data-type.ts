@@ -67,7 +67,14 @@ export let generateDataInterfaceCode = (originalUrl: string, schema: SwaggerSche
         if (propSchema.description != null) {
           doc = `\n/** ${propSchema.description} */\n`;
         }
-        return `${doc}${property}${optionalMark}: ${generateDataInterfaceCode(originalUrl, propSchema)}`;
+
+        if (property.match(/^\{[\w\d]+\}$/)) {
+          // 支持 key 使用 {taskId} 的格式, 生成 Record 结构的 object
+          let keyName = property.slice(1, property.length - 1);
+          return `${doc}[${keyName}:string]: ${generateDataInterfaceCode(originalUrl, propSchema)}`;
+        } else {
+          return `${doc}${property}${optionalMark}: ${generateDataInterfaceCode(originalUrl, propSchema)}`;
+        }
       });
       return `{${pairsCode}}`;
     default:
