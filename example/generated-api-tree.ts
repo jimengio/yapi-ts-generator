@@ -32,6 +32,14 @@ export let genSeedApiTree = {
     usePOST: () => hooksPost<IApiResultPost_Tasks, IApiBodyPost_Tasks>(insertPublicHost("/tasks"), `/tasks`),
     /** 添加任务 */
     dynamicPOST: () => dynamicPost<IApiResultPost_Tasks, IApiBodyPost_Tasks, {}, {}>(insertPublicHost("/tasks"), "/tasks"),
+    dict: {
+      /** 任务字典 */
+      GET: (opts?: IJimuApiOption) => ajaxGet<IApiResultGet_TasksDict>(insertPublicHost("/tasks/dict"), `/tasks/dict`, {}, opts),
+      /** 任务字典 */
+      useGET: (opts?: IJimuApiOption) => hooksGet<IApiResultGet_TasksDict>(insertPublicHost("/tasks/dict"), `/tasks/dict`, {}, opts),
+      /** 任务字典 */
+      dynamicGET: () => dynamicGet<IApiResultGet_TasksDict, {}, {}>(insertPublicHost("/tasks/dict"), "/tasks/dict"),
+    },
     _: {
       /** 更新任务 */
       PUT: (id: Id, body: IApiBodyPut_Tasks_, opts?: IJimuApiOption) =>
@@ -139,6 +147,9 @@ export interface IApiQuery_UserMe {
 export interface IApiQuery_Users {
   /** 按照职位筛选 */
   positionId?: string;
+}
+export interface IApiResultGet_TasksDict {
+  [taskId: string]: { id: string; title: string; content: string; finished: string; createdAt?: string; priority?: string };
 }
 export interface IApiResultGet_UserMe {
   id: string;
