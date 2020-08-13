@@ -5,8 +5,7 @@ import {
   Schema as SwaggerSchema,
 } from "swagger-schema-official";
 
-import { toPairs } from "lodash";
-import { isArray } from "util";
+import { toPairs, isArray } from "lodash";
 import { ISimpleDict } from "../types";
 
 let guessQueryNameType = (name: string) => {
@@ -39,7 +38,7 @@ export let generateOptionsInterfaceCode = (parameters: SwaggerQueryParameter[], 
   return `{${pairsCode}}`;
 };
 
-export let generateDataInterfaceCode = (originalUrl: string, schema: SwaggerSchema) => {
+export let generateDataInterfaceCode = (originalUrl: string, schema: SwaggerSchema): string => {
   switch (schema.type) {
     case "string":
     case "number":

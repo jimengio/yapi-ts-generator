@@ -3,7 +3,7 @@
     "allowSyntheticDefaultImports": true,
     "experimentalDecorators": true,
     "sourceMap": true,
-    "noImplicitAny": false,
+    "noImplicitAny": true,
     "noImplicitThis": true,
     "strictNullChecks": false,
     "moduleResolution": "node",
@@ -14,7 +14,7 @@
     "types": ["node"],
     "baseUrl": "./example/",
     "paths": {
-        "models": ["./example/models"]
+      "models": ["./example/models"]
     },
     "plugins": []
   }

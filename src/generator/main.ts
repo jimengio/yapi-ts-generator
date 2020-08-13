@@ -75,7 +75,7 @@ export let generateCodeOfChildren = (
   tagFilter: FuncTagFilter,
   pathPreferences: IPathPreferenceConfigs,
   definedQueryTypes: ISimpleDict
-) => {
+): string => {
   if (pathNodes == null || pathNodes.length === 0) {
     return "";
   }
