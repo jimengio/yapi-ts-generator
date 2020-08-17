@@ -45,7 +45,7 @@
     "html-webpack-plugin": "^4.3.0",
     "html-webpack-tags-plugin": "^2.0.17",
     "http-server": "^0.12.3",
-    "lodash": "^4.17.19",
+    "lodash": "^4.17.20",
     "mini-css-extract-plugin": "^0.10.0",
     "pre-commit": "^1.2.2",
     "prettier": "^2.0.5",
