@@ -3,6 +3,7 @@ import {
   Operation as SwaggerPathOperation,
   QueryParameter as SwaggerQueryParameter,
   Schema as SwaggerSchema,
+  ParameterType as SwaggerParameterType,
 } from "swagger-schema-official";
 
 import { toPairs, isArray } from "lodash";
@@ -76,8 +77,17 @@ export let generateDataInterfaceCode = (originalUrl: string, schema: SwaggerSche
         }
       });
       return `{${pairsCode}}`;
+
+    // JSON 生成的结构包含不少的 null, 减少这类的 log
+    case "null" as SwaggerParameterType:
+      return "any /** TODO, null type */";
     default:
-      console.warn(originalUrl, "-- Unknown type:", schema);
+      console.warn(originalUrl, "-- Unknown type:", JSON.stringify(schema));
+      if (isArray(schema.type)) {
+        console.warn(" ^- 存在 YAPI 从 JSON 生成的数组结构的包含 null 的类型, 请在 YAPI 上操作清除");
+        let guessType = schema.type.filter((x) => x !== "null")[0] || "any";
+        return `${guessType} /** TODO ${JSON.stringify(schema)} */`;
+      }
       return schema.type;
   }
 };
