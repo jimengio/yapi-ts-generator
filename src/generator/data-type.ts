@@ -72,10 +72,10 @@ export let generateDataInterfaceCode = (originalUrl: string, schema: SwaggerSche
           // 支持 key 使用 {taskId} 的格式, 生成 Record 结构的 object
           let keyName = property.slice(1, property.length - 1);
           return `${doc}[${keyName}:string]: ${generateDataInterfaceCode(originalUrl, propSchema)}`;
-        } else if (property == "" || property.includes(" ") || property.includes("-")) {
-          throw new Error(`Unexpected property format ${JSON.stringify(property)}`);
-        } else {
+        } else if (/^\w[\w\d]*$/i.test(property)) {
           return `${doc}${property}${optionalMark}: ${generateDataInterfaceCode(originalUrl, propSchema)}`;
+        } else {
+          throw new Error(`Unexpected property format: ${JSON.stringify(property)}`);
         }
       });
       return `{${pairsCode}}`;
