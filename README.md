@@ -5,6 +5,8 @@
 
 ### Usages
 
+![](https://img.shields.io/npm/v/@jimengio/yapi-ts-generator.svg?style=flat-square)
+
 ```yarn
 yarn add @jimengio/yapi-ts-generator
 ```
