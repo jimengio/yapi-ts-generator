@@ -88,7 +88,7 @@ export let generateCodeOfChildren = (
       }
 
       return `
-    ${node.chunk}: {
+    ${node.chunk.replace(/\-/g, "_")}: {
       ${apiCode}
       ${generateCodeOfChildren(swaggerSpec, node.children, tagFilter, pathPreferences, definedQueryTypes)}
     },

@@ -56,6 +56,14 @@ export let genSeedApiTree = {
       dynamicDELETE: () => dynamicDelete<{ id: Id }>(insertPublicHost("/tasks/{id}"), "/tasks/${id}"),
     },
   },
+  user_data: {
+    /** 用户信息 */
+    GET: (opts?: IJimuApiOption) => ajaxGet<IApiResultGet_User_data>(insertPublicHost("/user-data"), `/user-data`, {}, opts),
+    /** 用户信息 */
+    useGET: (opts?: IJimuApiOption) => hooksGet<IApiResultGet_User_data>(insertPublicHost("/user-data"), `/user-data`, {}, opts),
+    /** 用户信息 */
+    dynamicGET: () => dynamicGet<IApiResultGet_User_data, {}, {}>(insertPublicHost("/user-data"), "/user-data"),
+  },
   user: {
     accesses: {
       _: {
@@ -156,6 +164,9 @@ export interface IApiResultGet_UserMe {
   name: string;
   /** 职位信息 */
   position?: { id?: string; name?: string };
+}
+export interface IApiResultGet_User_data {
+  name: string;
 }
 export interface IApiResultGet_Users {
   result?: { id?: string; name?: string; position?: { id?: string; name?: string } }[];
