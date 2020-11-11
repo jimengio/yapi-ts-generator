@@ -2,7 +2,8 @@
   "swagger": "2.0",
   "info": {
     "title": "seed",
-    "version": "last"
+    "version": "last",
+    "description": "这个项目是开发使用的示例, 调试代码生成脚本用的. 请不要随便清除."
   },
   "basePath": "/",
   "tags": [
@@ -229,6 +230,33 @@
               },
               "required": [
                 "id",
+                "name"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "/user-data": {
+      "get": {
+        "tags": [
+          "api.user"
+        ],
+        "summary": "用户信息",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "title": "empty object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                }
+              },
+              "required": [
                 "name"
               ]
             }

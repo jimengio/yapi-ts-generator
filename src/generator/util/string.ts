@@ -24,7 +24,7 @@ export let getPathChunks = (urlPath: string) => {
 /** 基于 url 生成变量名 */
 export let defineNameFromUrl = (originalUrl: string) => {
   let pieces = getPathChunks(originalUrl);
-  let namePart = pieces.map((x) => x[0].toUpperCase() + x.slice(1)).join("");
+  let namePart = pieces.map((x) => x[0].toUpperCase() + x.slice(1).replace(/\-/g, "_")).join("");
   return namePart;
 };
 
