@@ -1,3 +1,7 @@
+/**
+ * 从 swagger 的数据生成 API 类型的代码
+ */
+
 import {
   Path as SwaggerPathConfig,
   Operation as SwaggerPathOperation,

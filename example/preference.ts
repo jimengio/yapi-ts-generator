@@ -1,5 +1,8 @@
 import { IPathPreference } from "../src/preference";
 
+/** 每次增减 API 的时候维护一下, 提供提示功能
+ * 对象的配置功能比较高级, 一般用不到, 主要是手写类型的时候, 可以从配置插入, 提高准确性
+ */
 export let pathPreferences: { [k: string]: IPathPreference } = {
   "/user/info": {},
   "/user/me": {},

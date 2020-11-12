@@ -1,3 +1,9 @@
+/**
+ * 这个文件基于 swagger 生成 API, 包括 GET, POST, PUT, DELETE,
+ * 具体参考 https://github.com/jimengio/yapi-ts-generator/issues/10
+ * 前缀, use 表示 hooks 接口. dynamic 是为了支持复杂使用场景额外增加的接口
+ */
+
 import { IPathPreference, IPathPreferenceConfigs } from "../preference";
 
 import {
@@ -26,6 +32,7 @@ import { ISimpleDict } from "../types";
 
 let apiType = "IJimuApiOption";
 
+/** 从 path 当中提取动态参数, 格式 `/a/{b}`, 目前只能从花括号识别 */
 let getPathParamsCode = (pathname: string) => {
   let params = (pathname.match(/\{(\w+)\}/g) || []).map((x) => x.slice(1, x.length - 1));
   let paramsWithType = params.map((x) => `${x}:Id`).join(",");
@@ -36,8 +43,13 @@ let getPathParamsCode = (pathname: string) => {
 let getQueryOptionsCode = (
   originalUrl: string,
   parameters: SwaggerParameter[],
+  /** 外部强行传入一个已经定义好的类型名称, 没有定义的话, 就是用生成的 */
   existedName: string,
+  /** YAPI 给的 query 都是 string, 实际使用当中有的可以是 number 或者 boolean,
+   * 目前是考虑基于一个 dict, 指定部分名称对应的类型, 没想到更智能的方案
+   */
   definedQueryTypes?: ISimpleDict,
+  /** 收集 query, 后面会在全局定义 query, 类型名字是比较长的. 如果有提供手写的类型, 就不用收集了 */
   disableCollecting?: boolean
 ) => {
   let queryParameters = parameters.filter((x) => x.in === "query").map((x) => x as SwaggerQueryParameter);

@@ -1,3 +1,18 @@
+/**
+ * 生成类型脚本的主入口, 大致几个步骤:
+ * 1. 从 API 列表按照 tag 过滤出来想要生成的 API
+ * 2. API path 是按照 `/` 隔成一段一段的, 按照这个信息, 构建一棵树
+ * 3. 每个 API 生成对应的 API 代码, 比如 GET, useGet, dynamicGET, 整个模板
+ * 4. 前面遍历过程会收集一下涉及到哪些类型, 统一生成出来, 并且 export
+ *
+ * 有个 preference 配置, 用来插入额外的配置,
+ * 设计初考虑的是有些类型可能手写更方便, 那么就手写, 然后在生成的代码当中引用,
+ * 那么就 preference 里边配置一下...
+ *
+ * 然后有个 configures 用来插入 api host.
+ * 其中 mock api host 也是支持的, 但是就比较绕了
+ */
+
 import { Spec } from "swagger-schema-official";
 import { IPathPreference, IPathPreferenceConfigs } from "../preference";
 import { uniq, groupBy, toPairs, difference } from "lodash";

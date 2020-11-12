@@ -1,3 +1,11 @@
+/**
+ * 这个文件前半部分是手动维护的代码, 主要是引入的依赖
+ * 后面部分就是跑脚本生成出来的内容了
+ *
+ * 如果有手动写的类型, 就是手动 import 过来,
+ * 然后 preference 那边定义一下, 就会生成出来, 然后刚好对应到 import 进来的内容
+ */
+
 import { IJimuApiOption } from "@jimengio/api-base";
 import { Id, EApiKind } from "../src/types";
 import { insertPublicHost } from "./configs";

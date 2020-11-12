@@ -1,3 +1,7 @@
+/**
+ * 运行时会用到, 生成代码当中会调用这里的 ajax 函数
+ */
+
 import { get, post, put, del, IJimuApiOption } from "@jimengio/api-base";
 import { useState, useEffect } from "react";
 import { useDeepCompareEffectNoCheck } from "use-deep-compare-effect";

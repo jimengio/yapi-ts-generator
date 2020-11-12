@@ -1,3 +1,9 @@
+/**
+ * 这个文件提供 api host 的配置,
+ * 如果生成多个文件, 对应的参数也要调整, 对应到多个文件,
+ * 一般就是一个文件对应一个 API host 的意思
+ */
+
 import { IPathPreferenceConfigs } from "../src/preference";
 import { pathPreferences } from "preference";
 
