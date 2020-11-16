@@ -8,6 +8,8 @@ configureSeedHosts({
   mockedPaths: [],
 });
 
+// 下面就是业务代码了, 用的时候替换掉就好
+
 import { JimuApisEventBus, EJimuApiEvent } from "@jimengio/api-base";
 import { genSeedApiTree } from "generated-api-tree";
 

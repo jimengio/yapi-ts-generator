@@ -1,3 +1,7 @@
+/**
+ * 这个文件只是提供类型, 具体在 generator 里边用到
+ */
+
 export interface IPathPreference {
   /** 跳过当前路径的生成 */
   ignored?: boolean;
