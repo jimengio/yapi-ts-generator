@@ -82,6 +82,7 @@ export let getBaseUrl = (tags: string[], originalUrl: string) => {
     case "api":
       return `insertPublicHost(${JSON.stringify(originalUrl)})`;
     case "main":
+    case "internal":
       return `insertInternalHost(${JSON.stringify(originalUrl)})`;
     default:
       console.log(tags);
@@ -96,6 +97,7 @@ export let getBaseUrlKind = (tags: string[]) => {
     case "api":
       return `EApiKind.public`;
     case "main":
+    case "internal":
       return `EApiKind.internal`;
     default:
       console.log(tags);
